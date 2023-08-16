@@ -346,6 +346,44 @@ class _EditProfileState extends State<EditProfile> {
                       )
                   ),
                 ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    ElevatedButton(
+                      child: const Text(
+                        'Chronic Illness',
+                      ),
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        primary: AppColors.anchorGrey,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50)
+                        ),
+
+
+                      ),
+
+                    ),
+                    ElevatedButton(
+                      child: const Text(
+                        'Allergies',
+                      ),
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                          primary: AppColors.anchorGrey,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50)
+                          ),
+
+
+                      ),
+                    ),
+                  ],
+                )
+
 
 
               ],

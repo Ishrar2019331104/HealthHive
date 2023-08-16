@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:health_hive/components/app_colors.dart';
 import 'package:health_hive/components/app_text.dart';
+import 'package:health_hive/screens/authenticate/register.dart';
+import 'package:health_hive/screens/home/dashboard.dart';
 
 
 class Login extends StatefulWidget {
@@ -10,7 +12,23 @@ class Login extends StatefulWidget {
   State<Login> createState() => _LoginState();
 }
 
+
+
 class _LoginState extends State<Login> {
+
+
+  String _userEmail = '';
+  String _userPassword = '';
+
+
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+
+
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,56 +54,38 @@ class _LoginState extends State<Login> {
               SizedBox(
                 height: 50
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    'Email',
-                    style: TextStyle(
-                      color: AppColors.anchorGrey
-                    ),
-                  )
-                ],
-              ),
-              SizedBox(
-                  height: 5
-              ),
-              TextFormField(
+
+
+              TextField(
+
+                controller: _emailController,
                 decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
+                  hintText: 'Enter your email',
+                  labelText: 'Email',
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(50),
-                    borderSide: BorderSide.none,
-                  )
+                      borderRadius: BorderRadius.circular(50),
+                      borderSide: BorderSide.none
+                  ),
+                  fillColor: Colors.white,
+                  filled: true,
                 ),
               ),
               SizedBox(
                   height: 15
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    'Password',
-                    style: TextStyle(
-                        color: AppColors.anchorGrey
-                    ),
-                  )
-                ],
-              ),
-              SizedBox(
-                  height: 5
-              ),
-              TextFormField(
+
+              TextField(
+                controller: _passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(50),
-                      borderSide: BorderSide.none,
-                    )
+                  labelText: 'Password',
+                  hintText: 'Enter your password',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(50),
+                    borderSide: BorderSide.none
+                  ),
+                  fillColor: Colors.white,
+                  filled: true,
                 ),
               ),
               SizedBox(
@@ -93,6 +93,18 @@ class _LoginState extends State<Login> {
               ),
               ElevatedButton(
                 onPressed: (){
+                  setState(() {
+                      _userEmail = _emailController.text;
+                      _userPassword = _passwordController.text;
+                  });
+
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => Dashboard(),
+                  //     settings: RouteSettings(arguments: _userEmail)
+                  //   )
+                  // );
                   Navigator.pushNamed(context, '/dashboard');
                 },
                 child: Container(
