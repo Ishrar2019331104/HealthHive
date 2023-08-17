@@ -51,7 +51,9 @@ class LogbookOptions extends StatelessWidget {
                 height: 16,
               ),
               ElevatedButton(
-                onPressed: (){},
+                onPressed: (){
+                  Navigator.pushNamed(context, '/bloodpressureform');
+                },
                 child: Container(
                     width: double.infinity,
                     alignment: Alignment.center,
@@ -74,7 +76,9 @@ class LogbookOptions extends StatelessWidget {
                 height: 16,
               ),
               ElevatedButton(
-                onPressed: (){},
+                onPressed: (){
+                  Navigator.pushNamed(context, '/bloodsugarform');
+                },
                 child: Container(
                     width: double.infinity,
                     alignment: Alignment.center,
@@ -97,7 +101,9 @@ class LogbookOptions extends StatelessWidget {
                 height: 16,
               ),
               ElevatedButton(
-                onPressed: (){},
+                onPressed: (){
+                  Navigator.pushNamed(context, '/weightform');
+                },
                 child: Container(
                     width: double.infinity,
                     alignment: Alignment.center,
@@ -120,7 +126,9 @@ class LogbookOptions extends StatelessWidget {
                 height: 16,
               ),
               ElevatedButton(
-                onPressed: (){},
+                onPressed: (){
+                  Navigator.pushNamed(context, '/heightform');
+                },
                 child: Container(
                     width: double.infinity,
                     alignment: Alignment.center,
@@ -143,7 +151,9 @@ class LogbookOptions extends StatelessWidget {
                 height: 16,
               ),
               ElevatedButton(
-                onPressed: (){},
+                onPressed: (){
+                  Navigator.pushNamed(context, '/hydrationform');
+                },
                 child: Container(
                     width: double.infinity,
                     alignment: Alignment.center,
@@ -166,7 +176,9 @@ class LogbookOptions extends StatelessWidget {
                 height: 16,
               ),
               ElevatedButton(
-                onPressed: (){},
+                onPressed: (){
+                  Navigator.pushNamed(context, '/menstruationform');
+                },
                 child: Container(
                     width: double.infinity,
                     alignment: Alignment.center,

@@ -2,19 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:health_hive/components/app_colors.dart';
 import 'package:health_hive/components/app_text.dart';
 import 'package:intl/intl.dart';
-
-
-class TemperatureForm extends StatefulWidget {
-  const TemperatureForm({Key? key}) : super(key: key);
+class BloodSugarForm extends StatefulWidget {
+  const BloodSugarForm({Key? key}) : super(key: key);
 
   @override
-  State<TemperatureForm> createState() => _TemperatureFormState();
+  State<BloodSugarForm> createState() => _BloodSugarFormState();
 }
 
-class _TemperatureFormState extends State<TemperatureForm> {
-  double temperatureValue = 0;
-  String selectedScale = "Fahrenheit"; // Set default scale
-  final List<String> temperatureScales = ["Fahrenheit", "Celsius"]; // Renamed from 'doseUnits'
+class _BloodSugarFormState extends State<BloodSugarForm> {
+
+
+  double sugar_level = 0;
 
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay.now();
@@ -47,16 +45,19 @@ class _TemperatureFormState extends State<TemperatureForm> {
       });
   }
 
+
   void _submitForm() {
-    print("Temperature: $temperatureValue $selectedScale");
+    print("Blood sugar: $sugar_level");
   }
+
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: AppColors.anchorGrey),
-        title: AppText(text: 'Log temperature'),
+        title: AppText(text: 'Log blood sugar'),
         actions: <Widget>[
           IconButton(
             onPressed: () {
@@ -78,36 +79,14 @@ class _TemperatureFormState extends State<TemperatureForm> {
               TextFormField(
                 keyboardType: TextInputType.numberWithOptions(decimal: true),
                 decoration: InputDecoration(
-                  labelText: 'Temperature',
+                  labelText: 'Sugar level',
                   labelStyle: TextStyle(color: AppColors.anchorGrey),
                 ),
                 onChanged: (value) {
                   setState(() {
-                    temperatureValue = double.tryParse(value) ?? 0;
+                    sugar_level = double.tryParse(value) ?? 0;
                   });
                 },
-              ),
-              SizedBox(height: 16),
-              DropdownButtonFormField<String>(
-                value: selectedScale,
-                onChanged: (newValue) {
-                  setState(() {
-                    selectedScale = newValue ?? "Fahrenheit"; // Handle null value
-                  });
-                },
-                items: temperatureScales.map((scale) {
-                  return DropdownMenuItem(
-                    value: scale,
-                    child: Text(
-                      scale,
-                      style: TextStyle(color: AppColors.anchorGrey),
-                    ),
-                  );
-                }).toList(),
-                decoration: InputDecoration(
-                  labelText: 'Temperature Scale',
-                  labelStyle: TextStyle(color: AppColors.anchorGrey),
-                ),
               ),
               SizedBox(height: 16),
 
@@ -154,6 +133,8 @@ class _TemperatureFormState extends State<TemperatureForm> {
                 ],
               ),
 
+
+
             ],
           ),
         ),
@@ -161,3 +142,4 @@ class _TemperatureFormState extends State<TemperatureForm> {
     );
   }
 }
+

@@ -3,18 +3,16 @@ import 'package:health_hive/components/app_colors.dart';
 import 'package:health_hive/components/app_text.dart';
 import 'package:intl/intl.dart';
 
-
-class TemperatureForm extends StatefulWidget {
-  const TemperatureForm({Key? key}) : super(key: key);
+class MenstruationForm extends StatefulWidget {
+  const MenstruationForm({Key? key}) : super(key: key);
 
   @override
-  State<TemperatureForm> createState() => _TemperatureFormState();
+  State<MenstruationForm> createState() => _MenstruationFormState();
 }
 
-class _TemperatureFormState extends State<TemperatureForm> {
-  double temperatureValue = 0;
-  String selectedScale = "Fahrenheit"; // Set default scale
-  final List<String> temperatureScales = ["Fahrenheit", "Celsius"]; // Renamed from 'doseUnits'
+class _MenstruationFormState extends State<MenstruationForm> {
+
+
 
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay.now();
@@ -47,16 +45,28 @@ class _TemperatureFormState extends State<TemperatureForm> {
       });
   }
 
+
   void _submitForm() {
-    print("Temperature: $temperatureValue $selectedScale");
+    print("Date: $selectedDate");
   }
+
+  String selectedFlow = "no flow"; // Set default scale
+  final List<String> flowOptions = ["light", "medium", "heavy", "no flow", "unexpected flow"];
+
+  String selectedColor = "none"; // Set default scale
+  final List<String> colorOptions = ["none", "black", "brown", "dark red", "bright red", "pink", "orange", "grey"];
+
+  String selectedConsistency = "none"; // Set default scale
+  final List<String> consistencyOptions = ["none", "watery", "clots"];
+
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: AppColors.anchorGrey),
-        title: AppText(text: 'Log temperature'),
+        title: AppText(text: 'Log menstruation'),
         actions: <Widget>[
           IconButton(
             onPressed: () {
@@ -75,27 +85,17 @@ class _TemperatureFormState extends State<TemperatureForm> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              TextFormField(
-                keyboardType: TextInputType.numberWithOptions(decimal: true),
-                decoration: InputDecoration(
-                  labelText: 'Temperature',
-                  labelStyle: TextStyle(color: AppColors.anchorGrey),
-                ),
-                onChanged: (value) {
-                  setState(() {
-                    temperatureValue = double.tryParse(value) ?? 0;
-                  });
-                },
-              ),
-              SizedBox(height: 16),
+
+
+
               DropdownButtonFormField<String>(
-                value: selectedScale,
+                value: selectedFlow,
                 onChanged: (newValue) {
                   setState(() {
-                    selectedScale = newValue ?? "Fahrenheit"; // Handle null value
+                    selectedFlow = newValue ?? "no flow"; // Handle null value
                   });
                 },
-                items: temperatureScales.map((scale) {
+                items: flowOptions.map((scale) {
                   return DropdownMenuItem(
                     value: scale,
                     child: Text(
@@ -105,11 +105,63 @@ class _TemperatureFormState extends State<TemperatureForm> {
                   );
                 }).toList(),
                 decoration: InputDecoration(
-                  labelText: 'Temperature Scale',
+                  labelText: 'Flow',
                   labelStyle: TextStyle(color: AppColors.anchorGrey),
                 ),
               ),
-              SizedBox(height: 16),
+              SizedBox(
+                height: 16,
+              ),
+
+              DropdownButtonFormField<String>(
+                value: selectedColor,
+                onChanged: (newValue) {
+                  setState(() {
+                    selectedColor = newValue ?? "none"; // Handle null value
+                  });
+                },
+                items: colorOptions.map((scale) {
+                  return DropdownMenuItem(
+                    value: scale,
+                    child: Text(
+                      scale,
+                      style: TextStyle(color: AppColors.anchorGrey),
+                    ),
+                  );
+                }).toList(),
+                decoration: InputDecoration(
+                  labelText: 'Color',
+                  labelStyle: TextStyle(color: AppColors.anchorGrey),
+                ),
+              ),
+              SizedBox(
+                height: 16,
+              ),
+
+              DropdownButtonFormField<String>(
+                value: selectedConsistency,
+                onChanged: (newValue) {
+                  setState(() {
+                    selectedConsistency = newValue ?? "none"; // Handle null value
+                  });
+                },
+                items: consistencyOptions.map((scale) {
+                  return DropdownMenuItem(
+                    value: scale,
+                    child: Text(
+                      scale,
+                      style: TextStyle(color: AppColors.anchorGrey),
+                    ),
+                  );
+                }).toList(),
+                decoration: InputDecoration(
+                  labelText: 'Consistency',
+                  labelStyle: TextStyle(color: AppColors.anchorGrey),
+                ),
+              ),
+              SizedBox(
+                height: 16,
+              ),
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -153,6 +205,8 @@ class _TemperatureFormState extends State<TemperatureForm> {
 
                 ],
               ),
+
+
 
             ],
           ),

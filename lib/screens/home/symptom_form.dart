@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:health_hive/components/app_colors.dart';
 import 'package:health_hive/components/app_text.dart';
 import 'package:intl/intl.dart';
-
-
-class TemperatureForm extends StatefulWidget {
-  const TemperatureForm({Key? key}) : super(key: key);
+class SymptomForm extends StatefulWidget {
+  const SymptomForm({Key? key}) : super(key: key);
 
   @override
-  State<TemperatureForm> createState() => _TemperatureFormState();
+  State<SymptomForm> createState() => _SymptomFormState();
 }
 
-class _TemperatureFormState extends State<TemperatureForm> {
-  double temperatureValue = 0;
-  String selectedScale = "Fahrenheit"; // Set default scale
-  final List<String> temperatureScales = ["Fahrenheit", "Celsius"]; // Renamed from 'doseUnits'
+class _SymptomFormState extends State<SymptomForm> {
+
+
+
+  String symptom = '';
+
 
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay.now();
@@ -48,20 +48,23 @@ class _TemperatureFormState extends State<TemperatureForm> {
   }
 
   void _submitForm() {
-    print("Temperature: $temperatureValue $selectedScale");
+    print("Symptom: $symptom");
   }
+
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: AppColors.anchorGrey),
-        title: AppText(text: 'Log temperature'),
+        title: AppText(text: 'Log symptom'),
         actions: <Widget>[
           IconButton(
             onPressed: () {
               _submitForm();
-              Navigator.pushNamed(context, '/logbook');
+              Navigator.popUntil(context, ModalRoute.withName('/symptoms'));
+
             },
             icon: Icon(Icons.done, color: AppColors.anchorGrey),
           )
@@ -76,40 +79,19 @@ class _TemperatureFormState extends State<TemperatureForm> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               TextFormField(
-                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                keyboardType: TextInputType.text,
                 decoration: InputDecoration(
-                  labelText: 'Temperature',
+                  labelText: 'Symptom',
                   labelStyle: TextStyle(color: AppColors.anchorGrey),
                 ),
                 onChanged: (value) {
                   setState(() {
-                    temperatureValue = double.tryParse(value) ?? 0;
+                    symptom =  value;
                   });
                 },
               ),
               SizedBox(height: 16),
-              DropdownButtonFormField<String>(
-                value: selectedScale,
-                onChanged: (newValue) {
-                  setState(() {
-                    selectedScale = newValue ?? "Fahrenheit"; // Handle null value
-                  });
-                },
-                items: temperatureScales.map((scale) {
-                  return DropdownMenuItem(
-                    value: scale,
-                    child: Text(
-                      scale,
-                      style: TextStyle(color: AppColors.anchorGrey),
-                    ),
-                  );
-                }).toList(),
-                decoration: InputDecoration(
-                  labelText: 'Temperature Scale',
-                  labelStyle: TextStyle(color: AppColors.anchorGrey),
-                ),
-              ),
-              SizedBox(height: 16),
+
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

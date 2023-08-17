@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:health_hive/components/app_colors.dart';
-import 'package:health_hive/components/app_text.dart';
 import 'package:intl/intl.dart';
 
-
-class TemperatureForm extends StatefulWidget {
-  const TemperatureForm({Key? key}) : super(key: key);
+import '../../components/app_text.dart';
+class HeightForm extends StatefulWidget {
+  const HeightForm({Key? key}) : super(key: key);
 
   @override
-  State<TemperatureForm> createState() => _TemperatureFormState();
+  State<HeightForm> createState() => _HeightFormState();
 }
 
-class _TemperatureFormState extends State<TemperatureForm> {
-  double temperatureValue = 0;
-  String selectedScale = "Fahrenheit"; // Set default scale
-  final List<String> temperatureScales = ["Fahrenheit", "Celsius"]; // Renamed from 'doseUnits'
+class _HeightFormState extends State<HeightForm> {
+  double height = 0;
 
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay.now();
@@ -47,16 +44,21 @@ class _TemperatureFormState extends State<TemperatureForm> {
       });
   }
 
+
   void _submitForm() {
-    print("Temperature: $temperatureValue $selectedScale");
+    print("Height: $height");
   }
+
+  String selectedScale = "cm"; // Set default scale
+  final List<String> temperatureScales = ["cm", "ft/in"];
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: AppColors.anchorGrey),
-        title: AppText(text: 'Log temperature'),
+        title: AppText(text: 'Log height'),
         actions: <Widget>[
           IconButton(
             onPressed: () {
@@ -78,21 +80,22 @@ class _TemperatureFormState extends State<TemperatureForm> {
               TextFormField(
                 keyboardType: TextInputType.numberWithOptions(decimal: true),
                 decoration: InputDecoration(
-                  labelText: 'Temperature',
+                  labelText: 'Height',
                   labelStyle: TextStyle(color: AppColors.anchorGrey),
                 ),
                 onChanged: (value) {
                   setState(() {
-                    temperatureValue = double.tryParse(value) ?? 0;
+                    height = double.tryParse(value) ?? 0;
                   });
                 },
               ),
+
               SizedBox(height: 16),
               DropdownButtonFormField<String>(
                 value: selectedScale,
                 onChanged: (newValue) {
                   setState(() {
-                    selectedScale = newValue ?? "Fahrenheit"; // Handle null value
+                    selectedScale = newValue ?? "cm"; // Handle null value
                   });
                 },
                 items: temperatureScales.map((scale) {
@@ -105,12 +108,13 @@ class _TemperatureFormState extends State<TemperatureForm> {
                   );
                 }).toList(),
                 decoration: InputDecoration(
-                  labelText: 'Temperature Scale',
+                  labelText: 'Height unit',
                   labelStyle: TextStyle(color: AppColors.anchorGrey),
                 ),
               ),
-              SizedBox(height: 16),
-
+              SizedBox(
+                height: 16,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -153,6 +157,8 @@ class _TemperatureFormState extends State<TemperatureForm> {
 
                 ],
               ),
+
+
 
             ],
           ),
