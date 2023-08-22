@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:health_hive/components/app_colors.dart';
-import 'package:health_hive/components/app_text.dart';
+import 'package:health_hive/utils/app_colors.dart';
+import 'package:health_hive/utils/app_text.dart';
 import 'package:intl/intl.dart';
 class BloodSugarForm extends StatefulWidget {
   const BloodSugarForm({Key? key}) : super(key: key);

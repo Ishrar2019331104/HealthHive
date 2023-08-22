@@ -1,6 +1,6 @@
 # health_hive
 
-A new Flutter project.
+A personal health record system.
 
 ## Getting Started
 

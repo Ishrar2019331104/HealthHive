@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:health_hive/components/app_colors.dart';
-import 'package:health_hive/components/app_text.dart';
-import 'package:health_hive/components/temperature_card.dart';
-import 'package:health_hive/components/temperature_widget.dart';
+import 'package:health_hive/utils/app_colors.dart';
+import 'package:health_hive/utils/app_text.dart';
+import 'package:health_hive/widgets/temperature_card.dart';
+import 'package:health_hive/widgets/temperature_widget.dart';
 class Logbook extends StatefulWidget {
   const Logbook({Key? key}) : super(key: key);
 

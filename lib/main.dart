@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:health_hive/components/app_colors.dart';
+import 'package:health_hive/providers/user_provider.dart';
+import 'package:health_hive/utils/app_colors.dart';
 import 'package:health_hive/screens/authenticate/terms.dart';
 import 'package:health_hive/screens/home/bloodpressure_form.dart';
 import 'package:health_hive/screens/home/bloodsugar_form.dart';
@@ -20,6 +21,7 @@ import 'package:health_hive/screens/home/weight_form.dart';
 import 'package:health_hive/screens/wrapper.dart';
 import 'package:health_hive/screens/authenticate/login.dart';
 import 'package:health_hive/screens/authenticate/register.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 import 'screens/home/document_form.dart';
@@ -34,42 +36,49 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return Sizer(
-      builder: (context, orientation, deviceType){
-       return
-         MaterialApp(
-           debugShowCheckedModeBanner: false,
-           routes: {
-             '/': (context) => Wrapper(),
-             '/login': (context) => Login(),
-             '/register': (context) => Register(onSubmit: (String){},),
-             '/terms': (context) => Terms(),
-             '/dashboard': (context) => Dashboard(),
-             '/editprofile': (context) => EditProfile(),
-             '/symptoms': (context) => Symptoms(),
-             '/medications': (context) => Medications(),
-             '/documents': (context) => Documents(),
-             '/logbook': (context) => Logbook(),
-             '/logbookoptions': (context) => LogbookOptions(),
-             '/medicationform': (context) => MedicationForm(),
-             '/temperatureform': (context) => TemperatureForm(),
-             '/bloodpressureform': (context) => BloodPressureForm(),
-             '/bloodsugarform': (context) => BloodSugarForm(),
-             '/heightform': (context) => HeightForm(),
-             '/weightform': (context) => WeightForm(),
-             '/hydrationform': (context) => HydrationForm(),
-             '/menstruationform': (context) => MenstruationForm(),
-             '/symptomform': (context) => SymptomForm(),
-             '/documentform': (context) => DocumentForm()
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => UserProvider(),
+        )
+      ],
+      child: Sizer(
+        builder: (context, orientation, deviceType){
+         return
+           MaterialApp(
+             debugShowCheckedModeBanner: false,
+             routes: {
+               '/': (context) => Wrapper(),
+               '/login': (context) => Login(),
+               '/register': (context) => Register(onSubmit: (String){},),
+               '/terms': (context) => Terms(),
+               '/dashboard': (context) => Dashboard(),
+               '/editprofile': (context) => EditProfile(),
+               '/symptoms': (context) => Symptoms(),
+               '/medications': (context) => Medications(),
+               '/documents': (context) => Documents(),
+               '/logbook': (context) => Logbook(),
+               '/logbookoptions': (context) => LogbookOptions(),
+               '/medicationform': (context) => MedicationForm(),
+               '/temperatureform': (context) => TemperatureForm(),
+               '/bloodpressureform': (context) => BloodPressureForm(),
+               '/bloodsugarform': (context) => BloodSugarForm(),
+               '/heightform': (context) => HeightForm(),
+               '/weightform': (context) => WeightForm(),
+               '/hydrationform': (context) => HydrationForm(),
+               '/menstruationform': (context) => MenstruationForm(),
+               '/symptomform': (context) => SymptomForm(),
+               '/documentform': (context) => DocumentForm()
 
 
 
-           },
+             },
 
 
-           initialRoute: '/',
-         );
-      }
+             initialRoute: '/',
+           );
+        }
+      ),
     );
   }
 }

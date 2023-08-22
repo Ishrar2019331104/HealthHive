@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:health_hive/components/app_colors.dart';
-import 'package:health_hive/components/symptom_card.dart';
+import 'package:health_hive/utils/app_colors.dart';
+import 'package:health_hive/widgets/symptom_card.dart';
 class SymptomWidget extends StatelessWidget {
 
   final Symptom symptom;

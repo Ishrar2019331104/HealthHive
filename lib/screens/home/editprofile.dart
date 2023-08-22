@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:health_hive/components/app_colors.dart';
-import 'package:health_hive/components/app_text.dart';
+import 'package:health_hive/utils/app_colors.dart';
+import 'package:health_hive/utils/app_text.dart';
 class EditProfile extends StatefulWidget {
   const EditProfile({Key? key}) : super(key: key);
 

@@ -1,6 +1,6 @@
-import 'package:health_hive/components/document_card.dart';
+import 'package:health_hive/widgets/document_card.dart';
 import 'package:flutter/material.dart';
-import 'package:health_hive/components/app_colors.dart';
+import 'package:health_hive/utils/app_colors.dart';
 
 class DocumentWidget extends StatelessWidget {
 

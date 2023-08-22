@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:health_hive/components/app_colors.dart';
-import 'package:health_hive/components/medicine_card.dart';
+import 'package:health_hive/utils/app_colors.dart';
+import 'package:health_hive/widgets/medicine_card.dart';
 
 class MedicineWidget extends StatelessWidget {
 

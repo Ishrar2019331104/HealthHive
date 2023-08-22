@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:health_hive/components/app_colors.dart';
+import 'package:health_hive/utils/app_colors.dart';
 import 'package:intl/intl.dart';
 
-import '../../components/app_text.dart';
+import '../../utils/app_text.dart';
 class HeightForm extends StatefulWidget {
   const HeightForm({Key? key}) : super(key: key);
 

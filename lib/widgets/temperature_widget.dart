@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:health_hive/components/app_colors.dart';
-import 'package:health_hive/components/temperature_card.dart';
+import 'package:health_hive/utils/app_colors.dart';
+import 'package:health_hive/widgets/temperature_card.dart';
 
 class TemperatureWidget extends StatelessWidget {
   final Temperature temperature;

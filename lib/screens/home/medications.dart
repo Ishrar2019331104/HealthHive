@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:health_hive/components/app_colors.dart';
-import 'package:health_hive/components/medicine_card.dart';
-import 'package:health_hive/components/medicine_widget.dart';
+import 'package:health_hive/utils/app_colors.dart';
+import 'package:health_hive/widgets/medicine_card.dart';
+import 'package:health_hive/widgets/medicine_widget.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../components/app_text.dart';
+import '../../utils/app_text.dart';
 class Medications extends StatefulWidget {
   const Medications({Key? key}) : super(key: key);
 

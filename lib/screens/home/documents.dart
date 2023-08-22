@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:health_hive/components/app_colors.dart';
-import 'package:health_hive/components/app_text.dart';
-import 'package:health_hive/components/document_card.dart';
-import 'package:health_hive/components/document_widget.dart';
+import 'package:health_hive/utils/app_colors.dart';
+import 'package:health_hive/utils/app_text.dart';
+import 'package:health_hive/widgets/document_card.dart';
+import 'package:health_hive/widgets/document_widget.dart';
 
 class Documents extends StatefulWidget {
   const Documents({Key? key}) : super(key: key);
