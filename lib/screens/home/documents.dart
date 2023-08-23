@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:health_hive/providers/document_provider.dart';
 import 'package:health_hive/utils/app_colors.dart';
 import 'package:health_hive/utils/app_text.dart';
-import 'package:health_hive/widgets/document_card.dart';
 import 'package:health_hive/widgets/document_widget.dart';
 import 'package:provider/provider.dart';
 
