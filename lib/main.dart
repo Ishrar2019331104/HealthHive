@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:health_hive/providers/document_provider.dart';
+import 'package:health_hive/providers/symptom_provider.dart';
 import 'package:health_hive/providers/user_provider.dart';
 import 'package:health_hive/utils/app_colors.dart';
 import 'package:health_hive/screens/authenticate/terms.dart';
@@ -40,7 +42,14 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (context) => UserProvider(),
-        )
+        ),
+        ChangeNotifierProvider(
+          create: (context) => SymptomProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => DocumentProvider(),
+        ),
+
       ],
       child: Sizer(
         builder: (context, orientation, deviceType){
@@ -50,7 +59,7 @@ class MyApp extends StatelessWidget {
              routes: {
                '/': (context) => Wrapper(),
                '/login': (context) => Login(),
-               '/register': (context) => Register(onSubmit: (String){},),
+               '/register': (context) => Register(),
                '/terms': (context) => Terms(),
                '/dashboard': (context) => Dashboard(),
                '/editprofile': (context) => EditProfile(),

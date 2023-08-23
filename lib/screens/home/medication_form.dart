@@ -12,19 +12,89 @@ class MedicationForm extends StatefulWidget {
 class _MedicationFormState extends State<MedicationForm> {
 
   final _formKey = GlobalKey<FormState>();
-  String _selectedDoseUnit = "Tablet";
-  String _selectedSchedule = "Daily";
+  String _selectedDoseUnit = "gram(s)";
+  String _selectedSchedule = "When needed";
   DateTime _startDate = DateTime.now();
   DateTime _endDate = DateTime.now();
+  int frequency = 0;
+  int days = 0;
+  List<String> selectedDaysOfWeek = [];
+  List<TimeOfDay> selectedTimes = [];
 
   TextEditingController _nameController = TextEditingController();
   TextEditingController _doseController = TextEditingController();
 
-  final List<String> doseUnits = ['Tablet', 'Capsule', 'Syrup'];
-  final List<String> schedules = ['Daily', 'Once a week', 'Twice a day', 'When needed'];
+  final List<String> doseUnits = ['gram(s)', 'capsule(s)', 'milligram(s)', 'injection(s)', 'piece(s)', 'tablet(s)', 'unit(s)'];
+  final List<String> schedules = ['When needed', 'Every X days', 'Specific days of week'];
+
+
+
+  void increaseFrequency(){
+    setState(() {
+      frequency++;
+
+    });
+  }
+  void decreaseFrequency(){
+    if(frequency>0){
+      setState(() {
+        frequency--;
+      });
+    }
+  }
+  void increaseDays(){
+    setState(() {
+      days++;
+    });
+  }
+  void decreaseDays(){
+    if(days>0){
+      setState(() {
+        days--;
+      });
+    }
+  }
+
+  List<Widget> _buildDayOfWeekCheckboxes() {
+    const List<String> daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    return daysOfWeek.map((day) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 5),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+
+
+          children: [
+            Checkbox(
+              activeColor: AppColors.anchorGrey,
+              value: selectedDaysOfWeek.contains(day),
+              onChanged: (value) {
+                setState(() {
+                  if (value == true) {
+                    selectedDaysOfWeek.add(day);
+                  } else {
+                    selectedDaysOfWeek.remove(day);
+                  }
+                });
+              },
+            ),
+            Text(
+              day,
+              style: TextStyle(
+                color: AppColors.anchorGrey,
+              ),
+            ),
+          ],
+        ),
+      );
+    }).toList();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.slateGrey,
       appBar: AppBar(
         iconTheme: IconThemeData(
             color: AppColors.anchorGrey
@@ -57,6 +127,7 @@ class _MedicationFormState extends State<MedicationForm> {
                     labelText: 'Medication',
                       labelStyle: TextStyle(
                           color: AppColors.anchorGrey
+                          , fontWeight: FontWeight.w700
                       )
                   ),
                   validator: (value){
@@ -71,7 +142,8 @@ class _MedicationFormState extends State<MedicationForm> {
                   decoration: InputDecoration(
                     labelText: 'Dose',
                     labelStyle: TextStyle(
-                      color: AppColors.anchorGrey
+                      color: AppColors.anchorGrey,
+                        fontWeight: FontWeight.w700
                     )
                   ),
                   keyboardType: TextInputType.number,
@@ -104,6 +176,7 @@ class _MedicationFormState extends State<MedicationForm> {
                     labelText: 'Dose Unit',
                       labelStyle: TextStyle(
                           color: AppColors.anchorGrey
+                          , fontWeight: FontWeight.w700
                       )
                   ),
                 ),
@@ -113,7 +186,7 @@ class _MedicationFormState extends State<MedicationForm> {
                 Text(
                     'Select Schedule: ',
                   style: TextStyle(
-                    color: AppColors.anchorGrey
+                    color: AppColors.anchorGrey, fontWeight: FontWeight.w700
                   ),
                 ),
                 Column(
@@ -126,6 +199,7 @@ class _MedicationFormState extends State<MedicationForm> {
                         ),
                       ),
                       value: schedule,
+                      activeColor: AppColors.anchorGrey,
                       groupValue: _selectedSchedule,
                       onChanged: (value){
                         setState(() {
@@ -135,12 +209,238 @@ class _MedicationFormState extends State<MedicationForm> {
                     );
                   }).toList(),
                 ),
+
+
+                SizedBox(
+                    height: 16
+                ),
+
+                Visibility(
+                  visible: _selectedSchedule != 'When needed',
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+
+                      Visibility(
+                        visible: _selectedSchedule == 'Every X days',
+                        child:  Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Every',
+                                style: TextStyle(
+                                    fontSize: 16
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Container(
+                                width: 150,
+                                decoration: BoxDecoration(
+                                    color: AppColors.anchorGrey,
+                                    borderRadius: BorderRadius.circular(10)
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    IconButton(
+                                      onPressed: (){
+                                        decreaseDays();
+                                      },
+                                      icon: Icon(Icons.remove),
+                                      color: Colors.white,
+                                    ),
+
+
+                                    Text(
+                                      '$days',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 20
+                                      ),
+                                    ),
+
+                                    IconButton(
+                                      onPressed: (){
+                                        increaseDays();
+                                      },
+                                      icon: Icon(Icons.add),
+                                      color: Colors.white,
+                                    ),
+
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                'days',
+                                style: TextStyle(
+                                    fontSize: 16
+                                ),
+                              ),
+                            ],
+
+                          ),
+                        ),
+
+                      ),
+
+                      Visibility(
+                        visible: _selectedSchedule == 'Specific days of week',
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Expanded(
+                              child: Wrap(
+                                spacing: 8,
+                                alignment: WrapAlignment.start,
+                                children: _buildDayOfWeekCheckboxes(),
+                              ),
+                            )
+                          ],
+                        )
+
+                      ),
+
+
+
+
+                      Text(
+                        'Frequency: ',
+                        style: TextStyle(
+                            color: AppColors.anchorGrey,
+                            fontWeight: FontWeight.w700
+                        ),
+                      ),
+                      SizedBox(
+                        height: 16,
+                      ),
+                      Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Take',
+                              style: TextStyle(
+                                  fontSize: 16
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Container(
+                              width: 150,
+                              decoration: BoxDecoration(
+                                  color: AppColors.anchorGrey,
+                                  borderRadius: BorderRadius.circular(10)
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  IconButton(
+                                    onPressed: (){
+                                      decreaseFrequency();
+                                    },
+                                    icon: Icon(Icons.remove),
+                                    color: Colors.white,
+                                  ),
+
+
+                                  Text(
+                                    '$frequency',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 20
+                                    ),
+                                  ),
+
+                                  IconButton(
+                                    onPressed: (){
+                                      increaseFrequency();
+                                    },
+                                    icon: Icon(Icons.add),
+                                    color: Colors.white,
+                                  ),
+
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              'times',
+                              style: TextStyle(
+                                  fontSize: 16
+                              ),
+                            ),
+                          ],
+
+                        ),
+                      ),
+
+                      Wrap(
+                        spacing: 10, // Adjust the spacing between buttons
+                        alignment: WrapAlignment.center,
+                        children: List.generate(frequency, (index) {
+                          return TextButton(
+                            onPressed: () async {
+                              final selectedTime = await showTimePicker(
+                                context: context,
+                                initialTime: selectedTimes.length > index
+                                    ? selectedTimes[index]
+                                    : TimeOfDay.now(),
+                              );
+                              if (selectedTime != null) {
+                                setState(() {
+                                  if (selectedTimes.length > index) {
+                                    selectedTimes[index] = selectedTime;
+                                  } else {
+                                    selectedTimes.add(selectedTime);
+                                  }
+                                  print('Selected Time at index $index: ${selectedTime.format(context).replaceAll(RegExp('[APMapm]'), '')}');
+
+                                });
+                              }
+                            },
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.access_time,
+                                  color: AppColors.anchorGrey,
+                                ),
+                                SizedBox(width: 5),
+                                Text(
+                                  selectedTimes.length > index
+                                      ? selectedTimes[index].format(context).replaceAll(RegExp('[APMapm]'), '')
+                                      : '${TimeOfDay.now().format(context).replaceAll(RegExp('[APMapm]'), '')}',
+                                  style: TextStyle(
+                                    color: AppColors.anchorGrey,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }),
+                      )
+
+
+                    ],
+                  ),
+                ),
+
                 SizedBox(
                   height: 16
                 ),
                 Row(
                   children: [
-                    Text('Start Date: ',style: TextStyle(color: AppColors.anchorGrey)),
+                    Text('Start Date: ',style: TextStyle(color: AppColors.anchorGrey, fontWeight: FontWeight.w700)),
                     TextButton(
                       onPressed: () async {
                         final DateTime? selectedDate = await showDatePicker(
@@ -155,13 +455,13 @@ class _MedicationFormState extends State<MedicationForm> {
                           });
                         }
                       },
-                      child: Text('${_startDate.day}/${_startDate.month}/${_startDate.year}', style: TextStyle(color: AppColors.anchorGrey, fontWeight: FontWeight.w700)),
+                      child: Text('${_startDate.day}/${_startDate.month}/${_startDate.year}', style: TextStyle(color: AppColors.anchorGrey)),
                     )
                   ],
                 ),
                 Row(
                   children: [
-                    Text('End Date: ',  style: TextStyle(color: AppColors.anchorGrey)),
+                    Text('End Date: ',  style: TextStyle(color: AppColors.anchorGrey, fontWeight: FontWeight.w700)),
                     TextButton(
                       onPressed: () async {
                         final DateTime? selectedDate = await showDatePicker(
@@ -176,7 +476,7 @@ class _MedicationFormState extends State<MedicationForm> {
                           });
                         }
                       },
-                      child: Text('${_endDate.day}/${_endDate.month}/${_endDate.year}',  style: TextStyle(color: AppColors.anchorGrey, fontWeight: FontWeight.w700)),
+                      child: Text('${_endDate.day}/${_endDate.month}/${_endDate.year}',  style: TextStyle(color: AppColors.anchorGrey)),
                     )
                   ],
                 ),

@@ -7,8 +7,7 @@ import 'package:provider/provider.dart';
 
 import 'login.dart';
 class Register extends StatefulWidget {
-  const Register({Key? key, required this.onSubmit}) : super(key: key);
-  final ValueChanged<String> onSubmit;
+  const Register({Key? key}) : super(key: key);
   @override
   State<Register> createState() => _RegisterState();
 }
