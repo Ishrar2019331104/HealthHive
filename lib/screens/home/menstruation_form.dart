@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:health_hive/models/logbook_model.dart';
+import 'package:health_hive/providers/logbook_provider.dart';
 import 'package:health_hive/utils/app_colors.dart';
 import 'package:health_hive/utils/app_text.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class MenstruationForm extends StatefulWidget {
   const MenstruationForm({Key? key}) : super(key: key);
@@ -46,9 +49,6 @@ class _MenstruationFormState extends State<MenstruationForm> {
   }
 
 
-  void _submitForm() {
-    print("Date: $selectedDate");
-  }
 
   String selectedFlow = "no flow"; // Set default scale
   final List<String> flowOptions = ["light", "medium", "heavy", "no flow", "unexpected flow"];
@@ -63,152 +63,166 @@ class _MenstruationFormState extends State<MenstruationForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: AppColors.anchorGrey),
-        title: AppText(text: 'Log menstruation'),
-        actions: <Widget>[
-          IconButton(
-            onPressed: () {
-              _submitForm();
-              Navigator.pushNamed(context, '/logbook');
-            },
-            icon: Icon(Icons.done, color: AppColors.anchorGrey),
-          )
-        ],
-        backgroundColor: AppColors.slateGrey,
-        elevation: 0,
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
+    return Consumer<LogbookProvider>(
+      builder: (context, logbookProviderModel, child) => Scaffold(
+        appBar: AppBar(
+          iconTheme: IconThemeData(color: AppColors.anchorGrey),
+          title: AppText(text: 'Log menstruation'),
+          actions: <Widget>[
+            IconButton(
+              onPressed: () {
+                final newLogbookEntry = LogbookEntry(
+                    entryValue: '($selectedFlow, $selectedColor, $selectedConsistency)',
+                    entryDataType: '',
+                    selectedDate: selectedDate,
+                    selectedTime: selectedTime,
+                    category: 'menstruation'
+
+
+                );
+                logbookProviderModel.addEntry(0, newLogbookEntry);
 
 
 
-              DropdownButtonFormField<String>(
-                value: selectedFlow,
-                onChanged: (newValue) {
-                  setState(() {
-                    selectedFlow = newValue ?? "no flow"; // Handle null value
-                  });
-                },
-                items: flowOptions.map((scale) {
-                  return DropdownMenuItem(
-                    value: scale,
-                    child: Text(
-                      scale,
-                      style: TextStyle(color: AppColors.anchorGrey),
-                    ),
-                  );
-                }).toList(),
-                decoration: InputDecoration(
-                  labelText: 'Flow',
-                  labelStyle: TextStyle(color: AppColors.anchorGrey),
-                ),
-              ),
-              SizedBox(
-                height: 16,
-              ),
+                Navigator.popUntil(context, ModalRoute.withName('/logbook'));
+              },
+              icon: Icon(Icons.done, color: AppColors.anchorGrey),
+            )
+          ],
+          backgroundColor: AppColors.slateGrey,
+          elevation: 0,
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
 
-              DropdownButtonFormField<String>(
-                value: selectedColor,
-                onChanged: (newValue) {
-                  setState(() {
-                    selectedColor = newValue ?? "none"; // Handle null value
-                  });
-                },
-                items: colorOptions.map((scale) {
-                  return DropdownMenuItem(
-                    value: scale,
-                    child: Text(
-                      scale,
-                      style: TextStyle(color: AppColors.anchorGrey),
-                    ),
-                  );
-                }).toList(),
-                decoration: InputDecoration(
-                  labelText: 'Color',
-                  labelStyle: TextStyle(color: AppColors.anchorGrey),
-                ),
-              ),
-              SizedBox(
-                height: 16,
-              ),
 
-              DropdownButtonFormField<String>(
-                value: selectedConsistency,
-                onChanged: (newValue) {
-                  setState(() {
-                    selectedConsistency = newValue ?? "none"; // Handle null value
-                  });
-                },
-                items: consistencyOptions.map((scale) {
-                  return DropdownMenuItem(
-                    value: scale,
-                    child: Text(
-                      scale,
-                      style: TextStyle(color: AppColors.anchorGrey),
-                    ),
-                  );
-                }).toList(),
-                decoration: InputDecoration(
-                  labelText: 'Consistency',
-                  labelStyle: TextStyle(color: AppColors.anchorGrey),
-                ),
-              ),
-              SizedBox(
-                height: 16,
-              ),
 
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  ElevatedButton(
-                    onPressed: () => _selectDate(context),
-                    child: Text('Select Date'),
-                    style: ElevatedButton.styleFrom(
-                        primary: AppColors.anchorGrey
-                    ),
+                DropdownButtonFormField<String>(
+                  value: selectedFlow,
+                  onChanged: (newValue) {
+                    setState(() {
+                      selectedFlow = newValue ?? "no flow"; // Handle null value
+                    });
+                  },
+                  items: flowOptions.map((scale) {
+                    return DropdownMenuItem(
+                      value: scale,
+                      child: Text(
+                        scale,
+                        style: TextStyle(color: AppColors.anchorGrey),
+                      ),
+                    );
+                  }).toList(),
+                  decoration: InputDecoration(
+                    labelText: 'Flow',
+                    labelStyle: TextStyle(color: AppColors.anchorGrey),
                   ),
-                  Text(
-                    '${dateFormat.format(selectedDate)}',
-                    style: TextStyle(
-                        color: AppColors.anchorGrey,
-                        fontWeight: FontWeight.w700
-                    ),
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+
+                DropdownButtonFormField<String>(
+                  value: selectedColor,
+                  onChanged: (newValue) {
+                    setState(() {
+                      selectedColor = newValue ?? "none"; // Handle null value
+                    });
+                  },
+                  items: colorOptions.map((scale) {
+                    return DropdownMenuItem(
+                      value: scale,
+                      child: Text(
+                        scale,
+                        style: TextStyle(color: AppColors.anchorGrey),
+                      ),
+                    );
+                  }).toList(),
+                  decoration: InputDecoration(
+                    labelText: 'Color',
+                    labelStyle: TextStyle(color: AppColors.anchorGrey),
                   ),
-                ],
-              ),
-              SizedBox(
-                height: 16,
-              ),
+                ),
+                SizedBox(
+                  height: 16,
+                ),
 
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  ElevatedButton(
-                    onPressed: () => _selectTime(context),
-                    child: Text('Select Time'),
-                    style: ElevatedButton.styleFrom(
-                        primary: AppColors.anchorGrey
-                    ),
-
+                DropdownButtonFormField<String>(
+                  value: selectedConsistency,
+                  onChanged: (newValue) {
+                    setState(() {
+                      selectedConsistency = newValue ?? "none"; // Handle null value
+                    });
+                  },
+                  items: consistencyOptions.map((scale) {
+                    return DropdownMenuItem(
+                      value: scale,
+                      child: Text(
+                        scale,
+                        style: TextStyle(color: AppColors.anchorGrey),
+                      ),
+                    );
+                  }).toList(),
+                  decoration: InputDecoration(
+                    labelText: 'Consistency',
+                    labelStyle: TextStyle(color: AppColors.anchorGrey),
                   ),
-                  Text('${selectedTime.format(context)}',
-                    style: TextStyle(
-                        color: AppColors.anchorGrey,
-                        fontWeight: FontWeight.w700
-                    ),),
+                ),
+                SizedBox(
+                  height: 16,
+                ),
 
-                ],
-              ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () => _selectDate(context),
+                      child: Text('Select Date'),
+                      style: ElevatedButton.styleFrom(
+                          primary: AppColors.anchorGrey
+                      ),
+                    ),
+                    Text(
+                      '${dateFormat.format(selectedDate)}',
+                      style: TextStyle(
+                          color: AppColors.anchorGrey,
+                          fontWeight: FontWeight.w700
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () => _selectTime(context),
+                      child: Text('Select Time'),
+                      style: ElevatedButton.styleFrom(
+                          primary: AppColors.anchorGrey
+                      ),
+
+                    ),
+                    Text('${selectedTime.format(context)}',
+                      style: TextStyle(
+                          color: AppColors.anchorGrey,
+                          fontWeight: FontWeight.w700
+                      ),),
+
+                  ],
+                ),
 
 
 
-            ],
+              ],
+            ),
           ),
         ),
       ),

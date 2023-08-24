@@ -26,6 +26,7 @@ import 'package:health_hive/screens/authenticate/register.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
+import 'providers/logbook_provider.dart';
 import 'screens/home/document_form.dart';
 
 void main() {
@@ -49,6 +50,10 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => DocumentProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => LogbookProvider(),
+        ),
+
 
       ],
       child: Sizer(

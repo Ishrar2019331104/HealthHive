@@ -3,6 +3,7 @@ import 'package:health_hive/utils/app_colors.dart';
 import 'package:health_hive/utils/app_text.dart';
 
 
+
 class NavBar extends StatefulWidget {
   const NavBar({Key? key}) : super(key: key);
 
@@ -25,10 +26,12 @@ class _NavBarState extends State<NavBar> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    CircleAvatar(
-                      backgroundColor: Colors.grey[400],
-                      radius: 60,
+                    Icon(
+                        Icons.person_rounded,
+                      color: AppColors.anchorGrey,
+                      size: 60,
                     ),
+
                     SizedBox(
                       height: 20,
                     ),
@@ -50,6 +53,16 @@ class _NavBarState extends State<NavBar> {
               )
           ),
            ),
+          ListTile(
+            leading: Icon(Icons.share_rounded, color: AppColors.anchorGrey),
+            title: Text(
+              'Share records',
+              style: TextStyle(
+                  color: AppColors.anchorGrey
+              ),
+            ),
+            onTap: () {},
+          ),
           ListTile(
             leading: Icon(Icons.lock, color: AppColors.anchorGrey),
             title:  Text(

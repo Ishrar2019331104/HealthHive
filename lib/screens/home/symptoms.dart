@@ -4,6 +4,7 @@ import 'package:health_hive/utils/app_colors.dart';
 import 'package:health_hive/utils/app_text.dart';
 import 'package:health_hive/widgets/symptom_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class Symptoms extends StatefulWidget {
   const Symptoms({Key? key}) : super(key: key);
@@ -13,6 +14,9 @@ class Symptoms extends StatefulWidget {
 }
 
 class _SymptomsState extends State<Symptoms> {
+
+  bool _showCheckboxes = false;
+
   @override
   Widget build(BuildContext context) {
     return Consumer<SymptomProvider>(
@@ -55,7 +59,32 @@ class _SymptomsState extends State<Symptoms> {
                 ),
               ),
             ),
-            Expanded(
+            symptomProviderModel.symptoms.isEmpty ? Expanded(
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+
+                    SvgPicture.asset(
+                      'assets/empty.svg',
+                      width: 180,
+                      height: 180,
+
+                    ),
+                    SizedBox(
+                        height: 50
+                    ),
+                    Text(
+                        'No symptoms found!',
+                        style: TextStyle(
+                            color: AppColors.anchorGrey,
+                            fontSize: 16
+                        )
+                    )
+                  ],
+                ),
+              ),
+            ) : Expanded(
               child: ListView.builder(
                 itemCount: symptomProviderModel.symptoms.length,
                 itemBuilder: (context, index) {

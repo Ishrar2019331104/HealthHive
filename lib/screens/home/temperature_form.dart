@@ -1,7 +1,12 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:health_hive/models/logbook_model.dart';
+import 'package:health_hive/providers/logbook_provider.dart';
 import 'package:health_hive/utils/app_colors.dart';
 import 'package:health_hive/utils/app_text.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 
 class TemperatureForm extends StatefulWidget {
@@ -47,114 +52,127 @@ class _TemperatureFormState extends State<TemperatureForm> {
       });
   }
 
-  void _submitForm() {
-    print("Temperature: $temperatureValue $selectedScale");
-  }
+
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: AppColors.anchorGrey),
-        title: AppText(text: 'Log temperature'),
-        actions: <Widget>[
-          IconButton(
-            onPressed: () {
-              _submitForm();
-              Navigator.pushNamed(context, '/logbook');
-            },
-            icon: Icon(Icons.done, color: AppColors.anchorGrey),
-          )
-        ],
-        backgroundColor: AppColors.slateGrey,
-        elevation: 0,
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              TextFormField(
-                keyboardType: TextInputType.numberWithOptions(decimal: true),
-                decoration: InputDecoration(
-                  labelText: 'Temperature',
-                  labelStyle: TextStyle(color: AppColors.anchorGrey),
+    return Consumer<LogbookProvider>(
+      builder: (context, logbookProviderModel, value) => Scaffold(
+        appBar: AppBar(
+          iconTheme: IconThemeData(color: AppColors.anchorGrey),
+          title: AppText(text: 'Log temperature'),
+          actions: <Widget>[
+            IconButton(
+              onPressed: () {
+
+                final newLogbookEntry = LogbookEntry(
+                  entryValue: temperatureValue.toString(),
+                  entryDataType: selectedScale,
+                  selectedDate: selectedDate,
+                  selectedTime: selectedTime,
+                  category: 'temperature'
+
+
+                );
+
+                logbookProviderModel.addEntry(0, newLogbookEntry);
+
+               Navigator.popUntil(context, ModalRoute.withName('/logbook'));
+
+              },
+              icon: Icon(Icons.done, color: AppColors.anchorGrey),
+            )
+          ],
+          backgroundColor: AppColors.slateGrey,
+          elevation: 0,
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                TextFormField(
+                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                  decoration: InputDecoration(
+                    labelText: 'Temperature',
+                    labelStyle: TextStyle(color: AppColors.anchorGrey),
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      temperatureValue = double.tryParse(value) ?? 0;
+                    });
+                  },
                 ),
-                onChanged: (value) {
-                  setState(() {
-                    temperatureValue = double.tryParse(value) ?? 0;
-                  });
-                },
-              ),
-              SizedBox(height: 16),
-              DropdownButtonFormField<String>(
-                value: selectedScale,
-                onChanged: (newValue) {
-                  setState(() {
-                    selectedScale = newValue ?? "Fahrenheit"; // Handle null value
-                  });
-                },
-                items: temperatureScales.map((scale) {
-                  return DropdownMenuItem(
-                    value: scale,
-                    child: Text(
-                      scale,
-                      style: TextStyle(color: AppColors.anchorGrey),
-                    ),
-                  );
-                }).toList(),
-                decoration: InputDecoration(
-                  labelText: 'Temperature Scale',
-                  labelStyle: TextStyle(color: AppColors.anchorGrey),
+                SizedBox(height: 16),
+                DropdownButtonFormField<String>(
+                  value: selectedScale,
+                  onChanged: (newValue) {
+                    setState(() {
+                      selectedScale = newValue ?? "Fahrenheit"; // Handle null value
+                    });
+                  },
+                  items: temperatureScales.map((scale) {
+                    return DropdownMenuItem(
+                      value: scale,
+                      child: Text(
+                        scale,
+                        style: TextStyle(color: AppColors.anchorGrey),
+                      ),
+                    );
+                  }).toList(),
+                  decoration: InputDecoration(
+                    labelText: 'Temperature Scale',
+                    labelStyle: TextStyle(color: AppColors.anchorGrey),
+                  ),
                 ),
-              ),
-              SizedBox(height: 16),
+                SizedBox(height: 16),
 
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  ElevatedButton(
-                    onPressed: () => _selectDate(context),
-                    child: Text('Select Date'),
-                    style: ElevatedButton.styleFrom(
-                        primary: AppColors.anchorGrey
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () => _selectDate(context),
+                      child: Text('Select Date'),
+                      style: ElevatedButton.styleFrom(
+                          primary: AppColors.anchorGrey
+                      ),
                     ),
-                  ),
-                  Text(
-                    '${dateFormat.format(selectedDate)}',
-                    style: TextStyle(
-                        color: AppColors.anchorGrey,
-                        fontWeight: FontWeight.w700
+                    Text(
+                      '${dateFormat.format(selectedDate)}',
+                      style: TextStyle(
+                          color: AppColors.anchorGrey,
+                          fontWeight: FontWeight.w700
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 16,
-              ),
+                  ],
+                ),
+                SizedBox(
+                  height: 16,
+                ),
 
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  ElevatedButton(
-                    onPressed: () => _selectTime(context),
-                    child: Text('Select Time'),
-                    style: ElevatedButton.styleFrom(
-                        primary: AppColors.anchorGrey
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () => _selectTime(context),
+                      child: Text('Select Time'),
+                      style: ElevatedButton.styleFrom(
+                          primary: AppColors.anchorGrey
+                      ),
+
                     ),
+                    Text('${selectedTime.format(context)}',
+                      style: TextStyle(
+                          color: AppColors.anchorGrey,
+                          fontWeight: FontWeight.w700
+                      ),),
 
-                  ),
-                  Text('${selectedTime.format(context)}',
-                    style: TextStyle(
-                        color: AppColors.anchorGrey,
-                        fontWeight: FontWeight.w700
-                    ),),
+                  ],
+                ),
 
-                ],
-              ),
-
-            ],
+              ],
+            ),
           ),
         ),
       ),

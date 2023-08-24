@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:health_hive/models/logbook_model.dart';
+import 'package:health_hive/providers/logbook_provider.dart';
 import 'package:health_hive/utils/app_colors.dart';
 import 'package:health_hive/utils/app_text.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 class BloodSugarForm extends StatefulWidget {
   const BloodSugarForm({Key? key}) : super(key: key);
 
@@ -46,96 +49,105 @@ class _BloodSugarFormState extends State<BloodSugarForm> {
   }
 
 
-  void _submitForm() {
-    print("Blood sugar: $sugar_level");
-  }
 
 
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: AppColors.anchorGrey),
-        title: AppText(text: 'Log blood sugar'),
-        actions: <Widget>[
-          IconButton(
-            onPressed: () {
-              _submitForm();
-              Navigator.pushNamed(context, '/logbook');
-            },
-            icon: Icon(Icons.done, color: AppColors.anchorGrey),
-          )
-        ],
-        backgroundColor: AppColors.slateGrey,
-        elevation: 0,
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              TextFormField(
-                keyboardType: TextInputType.numberWithOptions(decimal: true),
-                decoration: InputDecoration(
-                  labelText: 'Sugar level',
-                  labelStyle: TextStyle(color: AppColors.anchorGrey),
+    return Consumer<LogbookProvider>(
+      builder: (context, logbookProviderModel, child) => Scaffold(
+        appBar: AppBar(
+          iconTheme: IconThemeData(color: AppColors.anchorGrey),
+          title: AppText(text: 'Log blood sugar'),
+          actions: <Widget>[
+            IconButton(
+              onPressed: () {
+
+                final newLogbookEntry = LogbookEntry(
+                  entryValue: sugar_level.toString(),
+                  entryDataType: 'mg/dL',
+                  selectedDate: selectedDate,
+                  selectedTime: selectedTime,
+                  category: 'bloodsugar'
+                );
+
+                logbookProviderModel.addEntry(0, newLogbookEntry);
+
+                Navigator.popUntil(context, ModalRoute.withName('/logbook'));
+              },
+              icon: Icon(Icons.done, color: AppColors.anchorGrey),
+            )
+          ],
+          backgroundColor: AppColors.slateGrey,
+          elevation: 0,
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                TextFormField(
+                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                  decoration: InputDecoration(
+                    labelText: 'Sugar level',
+                    labelStyle: TextStyle(color: AppColors.anchorGrey),
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      sugar_level = double.tryParse(value) ?? 0;
+                    });
+                  },
                 ),
-                onChanged: (value) {
-                  setState(() {
-                    sugar_level = double.tryParse(value) ?? 0;
-                  });
-                },
-              ),
-              SizedBox(height: 16),
+                SizedBox(height: 16),
 
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  ElevatedButton(
-                    onPressed: () => _selectDate(context),
-                    child: Text('Select Date'),
-                    style: ElevatedButton.styleFrom(
-                        primary: AppColors.anchorGrey
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () => _selectDate(context),
+                      child: Text('Select Date'),
+                      style: ElevatedButton.styleFrom(
+                          primary: AppColors.anchorGrey
+                      ),
                     ),
-                  ),
-                  Text(
-                    '${dateFormat.format(selectedDate)}',
-                    style: TextStyle(
-                        color: AppColors.anchorGrey,
-                        fontWeight: FontWeight.w700
+                    Text(
+                      '${dateFormat.format(selectedDate)}',
+                      style: TextStyle(
+                          color: AppColors.anchorGrey,
+                          fontWeight: FontWeight.w700
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 16,
-              ),
+                  ],
+                ),
+                SizedBox(
+                  height: 16,
+                ),
 
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  ElevatedButton(
-                    onPressed: () => _selectTime(context),
-                    child: Text('Select Time'),
-                    style: ElevatedButton.styleFrom(
-                        primary: AppColors.anchorGrey
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () => _selectTime(context),
+                      child: Text('Select Time'),
+                      style: ElevatedButton.styleFrom(
+                          primary: AppColors.anchorGrey
+                      ),
+
                     ),
+                    Text('${selectedTime.format(context)}',
+                      style: TextStyle(
+                          color: AppColors.anchorGrey,
+                          fontWeight: FontWeight.w700
+                      ),),
 
-                  ),
-                  Text('${selectedTime.format(context)}',
-                    style: TextStyle(
-                        color: AppColors.anchorGrey,
-                        fontWeight: FontWeight.w700
-                    ),),
-
-                ],
-              ),
+                  ],
+                ),
 
 
 
-            ],
+              ],
+            ),
           ),
         ),
       ),

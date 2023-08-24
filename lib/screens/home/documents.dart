@@ -4,7 +4,7 @@ import 'package:health_hive/utils/app_colors.dart';
 import 'package:health_hive/utils/app_text.dart';
 import 'package:health_hive/widgets/document_widget.dart';
 import 'package:provider/provider.dart';
-
+import 'package:flutter_svg/flutter_svg.dart';
 class Documents extends StatefulWidget {
   const Documents({Key? key}) : super(key: key);
 
@@ -53,7 +53,32 @@ class _DocumentsState extends State<Documents> {
                 ),
               ),
             ),
-            Expanded(
+            documentProviderModel.documents.isEmpty ? Expanded(
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+
+                    SvgPicture.asset(
+                      'assets/empty.svg',
+                      width: 180,
+                      height: 180,
+
+                    ),
+                    SizedBox(
+                        height: 50
+                    ),
+                    Text(
+                        'No documents found!',
+                        style: TextStyle(
+                            color: AppColors.anchorGrey,
+                            fontSize: 16
+                        )
+                    )
+                  ],
+                ),
+              ),
+            ) : Expanded(
               child: ListView.builder(
                 itemCount: documentProviderModel.documents.length,
                 itemBuilder: (context, index) {

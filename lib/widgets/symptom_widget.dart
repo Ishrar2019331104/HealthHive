@@ -59,13 +59,28 @@ class SymptomWidget extends StatelessWidget {
 
                         ListTile(
                           title: Text(
-                              'Delete symptom',
+                              'Share symptom',
                             style: TextStyle(
                               color: Colors.white
                             ),
                           ),
                           trailing: Icon(
-                              Icons.delete,
+                              Icons.share,
+                            color: Colors.white,
+                          ),
+                          onTap: (){
+
+                          },
+                        ),
+                        ListTile(
+                          title: Text(
+                            'Delete symptom',
+                            style: TextStyle(
+                                color: Colors.white
+                            ),
+                          ),
+                          trailing: Icon(
+                            Icons.delete,
                             color: Colors.red,
                           ),
                           onTap: (){
