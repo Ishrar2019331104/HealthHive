@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:health_hive/models/document_model.dart';
 import 'package:health_hive/providers/document_provider.dart';
+import 'package:health_hive/screens/home/documents.dart';
 import 'package:health_hive/utils/app_colors.dart';
 import 'package:health_hive/utils/app_text.dart';
 import 'package:intl/intl.dart';
@@ -115,7 +116,11 @@ class _DocumentFormState extends State<DocumentForm> {
                 documentProviderModel.addDocument(newDocument);
 
 
-                Navigator.popUntil(context, ModalRoute.withName('/documents'));
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => Documents()),
+                      (Route<dynamic> route) => false,
+                );
 
               },
               icon: Icon(Icons.done, color: AppColors.anchorGrey),

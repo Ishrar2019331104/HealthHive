@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:health_hive/models/symptom_model.dart';
 import 'package:health_hive/providers/symptom_provider.dart';
+import 'package:health_hive/screens/home/symptoms.dart';
 import 'package:health_hive/utils/app_colors.dart';
 import 'package:health_hive/utils/app_text.dart';
 import 'package:intl/intl.dart';
@@ -75,7 +76,11 @@ class _SymptomFormState extends State<SymptomForm> {
                 symptomProviderModel.addSymptom(newSymptom);
 
 
-                Navigator.popUntil(context, ModalRoute.withName('/symptoms'));
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => Symptoms()),
+                      (Route<dynamic> route) => false,
+                );
 
               },
               icon: Icon(Icons.done, color: AppColors.anchorGrey),

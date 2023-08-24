@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:health_hive/models/logbook_model.dart';
 import 'package:health_hive/providers/logbook_provider.dart';
+import 'package:health_hive/screens/home/logbook.dart';
 import 'package:health_hive/utils/app_colors.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -78,7 +79,11 @@ class _HeightFormState extends State<HeightForm> {
                 logbookProviderModel.addEntry(0, newLogbookEntry);
 
 
-                Navigator.popUntil(context, ModalRoute.withName('/logbook'));
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => Logbook()),
+                      (Route<dynamic> route) => false,
+                );
               },
               icon: Icon(Icons.done, color: AppColors.anchorGrey),
             )

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:health_hive/models/logbook_model.dart';
 import 'package:health_hive/providers/logbook_provider.dart';
+import 'package:health_hive/screens/home/logbook.dart';
 import 'package:health_hive/utils/app_colors.dart';
 import 'package:health_hive/utils/app_text.dart';
 import 'package:intl/intl.dart';
@@ -86,9 +87,13 @@ class _BloodPressureFormState extends State<BloodPressureForm> {
 
               logbookProviderModel.addEntry(0, newLogbookEntry);
 
-              print(newLogbookEntry.entryValue);
+              // print(newLogbookEntry.entryValue);
 
-              Navigator.popUntil(context, ModalRoute.withName('/logbook'));
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => Logbook()),
+                    (Route<dynamic> route) => false,
+              );
 
 
               },
