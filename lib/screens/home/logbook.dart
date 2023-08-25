@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
 import 'package:health_hive/providers/logbook_provider.dart';
+import 'package:health_hive/screens/home/dashboard.dart';
 import 'package:health_hive/utils/app_colors.dart';
 import 'package:health_hive/utils/app_text.dart';
 import 'package:health_hive/widgets/logbook_widget.dart';
@@ -31,7 +32,11 @@ class _LogbookState extends State<Logbook> {
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
-              Navigator.pop(context); // Navigate back when the button is pressed
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => Dashboard()),
+                    (Route<dynamic> route) => false,
+              );
             },
           ),
           title: AppText(text: 'Logbook'),

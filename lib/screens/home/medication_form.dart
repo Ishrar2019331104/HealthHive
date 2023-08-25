@@ -123,7 +123,7 @@ class _MedicationFormState extends State<MedicationForm> {
 
                       final entry = MedicationEntry(
                         date: currentDate,
-                        times: selectedEntryTimes,
+                        times: List.from(selectedEntryTimes),
                         medications: [_nameController.text],
                       );
 
@@ -140,7 +140,7 @@ class _MedicationFormState extends State<MedicationForm> {
 
                       final entry = MedicationEntry(
                         date: currentDate,
-                        times: selectedEntryTimes,
+                        times: List.from(selectedEntryTimes),
                         medications: [_nameController.text],
                       );
 
@@ -161,6 +161,11 @@ class _MedicationFormState extends State<MedicationForm> {
                   for(final entry in medicationEntries){
 
                     medicationProviderModel.addMedicationEntry(entry);
+
+                  }
+                  print('Contents of medicationProviderModel:');
+                  for (var entry in medicationProviderModel.medicationEntries) {
+                    print('Entry Date: ${entry.date} Entry medications:  ${entry.medications}');
 
                   }
 
@@ -447,28 +452,32 @@ class _MedicationFormState extends State<MedicationForm> {
                         ),
 
                         Wrap(
-                          spacing: 10, // Adjust the spacing between buttons
+                          spacing: 10,
                           alignment: WrapAlignment.center,
                           children: List.generate(frequency, (index) {
+                            TimeOfDay initialTime = selectedTimes.length > index
+                                ? selectedTimes[index]
+                                : TimeOfDay.now();
+
                             return TextButton(
                               onPressed: () async {
                                 final selectedTime = await showTimePicker(
                                   context: context,
-                                  initialTime: selectedTimes.length > index
-                                      ? selectedTimes[index]
-                                      : TimeOfDay.now(),
+                                  initialTime: initialTime,
                                 );
+
+                                print('Selected times before update: $selectedTimes');
+
                                 if (selectedTime != null) {
                                   setState(() {
-                                    if (selectedTimes.length > index) {
-                                      selectedTimes[index] = selectedTime;
-                                    } else {
-                                      selectedTimes.add(selectedTime);
+                                    while (selectedTimes.length <= index) {
+                                      selectedTimes.add(TimeOfDay.now());
                                     }
-                                    print('Selected Time at index $index: ${selectedTime.format(context).replaceAll(RegExp('[APMapm]'), '')}');
-
+                                    selectedTimes[index] = selectedTime;
                                   });
                                 }
+
+                                print('Selected times after update: $selectedTimes');
                               },
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
@@ -479,9 +488,7 @@ class _MedicationFormState extends State<MedicationForm> {
                                   ),
                                   SizedBox(width: 5),
                                   Text(
-                                    selectedTimes.length > index
-                                        ? selectedTimes[index].format(context).replaceAll(RegExp('[APMapm]'), '')
-                                        : '${TimeOfDay.now().format(context).replaceAll(RegExp('[APMapm]'), '')}',
+                                    initialTime.format(context).replaceAll(RegExp('[APMapm]'), ''),
                                     style: TextStyle(
                                       color: AppColors.anchorGrey,
                                       fontSize: 20,
@@ -492,6 +499,7 @@ class _MedicationFormState extends State<MedicationForm> {
                             );
                           }),
                         )
+
 
 
                       ],
