@@ -3,6 +3,7 @@ import 'package:health_hive/providers/document_provider.dart';
 import 'package:health_hive/utils/app_colors.dart';
 import 'package:health_hive/utils/app_text.dart';
 import 'package:health_hive/widgets/document_widget.dart';
+import 'package:health_hive/screens/home/dashboard.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 class Documents extends StatefulWidget {
@@ -25,6 +26,17 @@ class _DocumentsState extends State<Documents> {
           title: AppText(text: 'Documents'),
           backgroundColor: AppColors.slateGrey,
           elevation: 0,
+          leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              color: AppColors.anchorGrey,
+              onPressed: () {
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => Dashboard()),
+                      (Route<dynamic> route) => false,
+                ); // Navigate back to Dashboard
+              }
+          ),
           // add medication
           actions: <Widget>[
             IconButton(

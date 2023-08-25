@@ -5,6 +5,7 @@ import 'package:health_hive/utils/app_text.dart';
 import 'package:health_hive/widgets/symptom_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:health_hive/screens/home/dashboard.dart';
 
 class Symptoms extends StatefulWidget {
   const Symptoms({Key? key}) : super(key: key);
@@ -31,6 +32,17 @@ class _SymptomsState extends State<Symptoms> {
           // username
           title: AppText(text: 'Symptoms'),
           backgroundColor: AppColors.slateGrey,
+          leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              color: AppColors.anchorGrey,
+              onPressed: () {
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => Dashboard()),
+                      (Route<dynamic> route) => false,
+                ); // Navigate back to Dashboard
+              }
+          ),
           elevation: 0,
           // add medication
           actions: <Widget>[

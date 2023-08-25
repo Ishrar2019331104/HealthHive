@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:health_hive/providers/document_provider.dart';
+import 'package:health_hive/providers/medication_provider.dart';
 import 'package:health_hive/providers/symptom_provider.dart';
 import 'package:health_hive/providers/user_provider.dart';
+import 'package:health_hive/screens/home/share_documents.dart';
 import 'package:health_hive/utils/app_colors.dart';
 import 'package:health_hive/screens/authenticate/terms.dart';
 import 'package:health_hive/screens/home/bloodpressure_form.dart';
@@ -53,6 +55,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => LogbookProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => MedicationProvider(),
+        ),
 
 
       ],
@@ -82,9 +87,8 @@ class MyApp extends StatelessWidget {
                '/hydrationform': (context) => HydrationForm(),
                '/menstruationform': (context) => MenstruationForm(),
                '/symptomform': (context) => SymptomForm(),
-               '/documentform': (context) => DocumentForm()
-
-
+               '/documentform': (context) => DocumentForm(),
+               '/sharedocuments': (context) => ShareDocuments()
 
              },
 

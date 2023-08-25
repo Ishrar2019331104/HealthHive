@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:health_hive/screens/home/share_documents.dart';
 import 'package:health_hive/utils/app_colors.dart';
 import 'package:health_hive/utils/app_text.dart';
 
@@ -13,6 +14,14 @@ class NavBar extends StatefulWidget {
 
 class _NavBarState extends State<NavBar> {
   @override
+
+
+  TextEditingController _newPasswordController = TextEditingController();
+  TextEditingController _oldPasswordController = TextEditingController();
+
+
+
+
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
@@ -61,7 +70,9 @@ class _NavBarState extends State<NavBar> {
                   color: AppColors.anchorGrey
               ),
             ),
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, '/sharedocuments');
+            },
           ),
           ListTile(
             leading: Icon(Icons.lock, color: AppColors.anchorGrey),
@@ -71,7 +82,9 @@ class _NavBarState extends State<NavBar> {
                   color: AppColors.anchorGrey
               ),
             ),
-            onTap: () {},
+            onTap: () {
+              _openDialog();
+            },
           ),
           ListTile(
             leading: Icon(Icons.delete, color: AppColors.anchorGrey),
@@ -81,7 +94,9 @@ class _NavBarState extends State<NavBar> {
                   color: AppColors.anchorGrey
               ),
             ),
-            onTap: () {},
+            onTap: () {
+
+            },
           ),
           ListTile(
             leading: Icon(Icons.edit, color: AppColors.anchorGrey),
@@ -113,5 +128,65 @@ class _NavBarState extends State<NavBar> {
 
     );
   }
+  Future _openDialog() async { await showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20)
+      ),
+      title: Text(
+          'Change password',
+        style: TextStyle(
+          color: AppColors.anchorGrey
+        ),
+      ),
+      content: Column(
+        children: [
+          TextField(
+            autofocus: true,
+            controller: _oldPasswordController,
+            decoration: InputDecoration(
+              labelText: 'Old password',
+              labelStyle:  TextStyle(
+                color: AppColors.anchorGrey
+            ),
+
+
+            ),
+          ),
+          TextField(
+            controller: _newPasswordController,
+
+            decoration: InputDecoration(
+              labelText: 'New password',
+              labelStyle:  TextStyle(
+                  color: AppColors.anchorGrey
+              ),
+
+
+            ),
+          ),
+        ],
+      ),
+      actions: [
+        TextButton(
+          child: Text(
+              'OK',
+            style: TextStyle(
+              color: AppColors.anchorGrey
+            ),
+          ),
+          onPressed: (){
+
+
+
+          },
+        )
+      ],
+    )
+  );
+  }
+
 }
+
 

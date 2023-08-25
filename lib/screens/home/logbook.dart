@@ -28,11 +28,16 @@ class _LogbookState extends State<Logbook> {
           iconTheme: IconThemeData(
             color: AppColors.anchorGrey,
           ),
-          // username
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context); // Navigate back when the button is pressed
+            },
+          ),
           title: AppText(text: 'Logbook'),
           backgroundColor: AppColors.slateGrey,
           elevation: 0,
-          // add medication
+
           actions: <Widget>[
             IconButton(
               onPressed: () {
