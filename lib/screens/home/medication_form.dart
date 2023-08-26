@@ -155,7 +155,22 @@ class _MedicationFormState extends State<MedicationForm> {
                     }
 
 
+                  } else if (_selectedSchedule == 'When needed') {
+                    final daysDifference = _endDate.difference(_startDate).inDays;
+                    for (int i = 0; i <= daysDifference; i++) {
+                      final currentDate = _startDate.add(Duration(days: i));
+
+                      final entry = MedicationEntry(
+                        date: currentDate,
+                        times: [],
+                        medications: [_nameController.text], // Add only the medication name
+                      );
+
+                      medicationEntries.add(entry);
+                    }
                   }
+
+
                   print(medicationEntries.length);
 
                   for(final entry in medicationEntries){

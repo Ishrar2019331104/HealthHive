@@ -89,6 +89,8 @@ class _LoginState extends State<Login> {
                     String userEmail = _emailController.text;
                     String userPassword = _passwordController.text;
 
+
+
                     // some sort of validation
 
                     if(UserValidation.validateEmail(userEmail) == null && UserValidation.validatePassword(userPassword) == null) {
@@ -98,6 +100,8 @@ class _LoginState extends State<Login> {
                           builder: (context) => Dashboard()
                       ));
                     }
+
+
 
 
 

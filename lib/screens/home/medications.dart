@@ -8,6 +8,8 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 import '../../utils/app_text.dart';
+import 'package:flutter_svg/flutter_svg.dart'; // Import for displaying SVG images
+
 class Medications extends StatefulWidget {
   const Medications({Key? key}) : super(key: key);
 
@@ -35,6 +37,7 @@ class _MedicationsState extends State<Medications> {
         medicationProviderModel.getMedicationEntriesForDate(today);
 
         return Scaffold(
+          backgroundColor: AppColors.slateGrey,
             appBar: AppBar(
               iconTheme: IconThemeData(
                 color: AppColors.anchorGrey,
@@ -100,11 +103,29 @@ class _MedicationsState extends State<Medications> {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
+                      color: AppColors.anchorGrey
                     ),
                   ),
                 ),
                 Expanded(
-                  child: ListView.builder(
+                  child:medicationEntries.isEmpty
+                      ? Center(
+                    // Show SVG image when medication list is empty
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          'assets/empty.svg', // Replace with your SVG asset path
+                          width: 150,
+                          height: 150,
+                        ),
+                        SizedBox(
+                          height: 50,
+                        ),
+                        Text('No medications for today')
+                      ],
+                    )
+                  ) :  ListView.builder(
                     itemCount: medicationEntries.length,
                     itemBuilder: (context, index) {
                       MedicationEntry entry = medicationEntries[index];

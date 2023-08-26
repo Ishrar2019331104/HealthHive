@@ -20,25 +20,48 @@ class MedicineWidget extends StatelessWidget {
       elevation: 3,
       child: Column(
         children: [
-          Column(
-            children: times.map((time) {
-              return ListTile(
-                leading: Icon(
-                  FontAwesomeIcons.pills,
-                  size: 30,
-                  color: AppColors.anchorGrey,
-                ),
-                title: Text(medication),
-                subtitle: Text(
-                  '${time.format(context).replaceAll(RegExp('[APMapm]'), '')}',
-                  style: TextStyle(
+          if (times.isNotEmpty)
+            Column(
+              children: times.map((time) {
+                return ListTile(
+                  leading: Icon(
+                    FontAwesomeIcons.pills,
+                    size: 30,
                     color: AppColors.anchorGrey,
-                    fontSize: 15,
                   ),
-                ),
-              );
-            }).toList(),
-          ),
+                  title: Text(medication),
+                  subtitle: Text(
+                    '${time.format(context)}',
+                    style: TextStyle(
+                      color: AppColors.anchorGrey,
+                      fontSize: 15,
+                    ),
+                  ),
+                );
+              }).toList(),
+            ),
+          if (times.isEmpty)
+            ListTile(
+              leading: Icon(
+                FontAwesomeIcons.pills,
+                size: 30,
+                color: AppColors.anchorGrey,
+              ),
+              title: Text(medication),
+              subtitle: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Icon(
+                      Icons.watch_later_outlined,
+                    color: AppColors.anchorGrey,
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Text('When needed'),
+                ],
+              ),
+            ),
         ],
       ),
     );

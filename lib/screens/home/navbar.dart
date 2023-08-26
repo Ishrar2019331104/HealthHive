@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:health_hive/providers/user_provider.dart';
+import 'package:health_hive/screens/authenticate/login.dart';
 import 'package:health_hive/screens/home/share_documents.dart';
 import 'package:health_hive/utils/app_colors.dart';
 import 'package:health_hive/utils/app_text.dart';
+import 'package:provider/provider.dart';
 
 
 
@@ -23,109 +26,115 @@ class _NavBarState extends State<NavBar> {
 
 
   Widget build(BuildContext context) {
-    return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: <Widget>[
-           SizedBox(
-             height: 400,
-             child: DrawerHeader(
-              child: Container(
-                padding: EdgeInsets.fromLTRB(10, 50, 10, 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(
-                        Icons.person_rounded,
-                      color: AppColors.anchorGrey,
-                      size: 60,
-                    ),
-
-                    SizedBox(
-                      height: 20,
-                    ),
-                    AppText(text: 'Ishrar Chowdhury'),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                        'PIN: 120202242',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.anchorGrey
+    return Consumer<UserProvider>(
+      builder: (context, userProviderModel, child) => Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+             SizedBox(
+               height: 400,
+               child: DrawerHeader(
+                child: Container(
+                  padding: EdgeInsets.fromLTRB(10, 50, 10, 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(
+                          Icons.person_rounded,
+                        color: AppColors.anchorGrey,
+                        size: 60,
                       ),
-                    )
 
-                  ],
+                      SizedBox(
+                        height: 20,
+                      ),
+                      AppText(text: userProviderModel.userName),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                          'PIN: 120202242',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.anchorGrey
+                        ),
+                      )
+
+                    ],
+                  ),
+                )
+            ),
+             ),
+            ListTile(
+              leading: Icon(Icons.share_rounded, color: AppColors.anchorGrey),
+              title: Text(
+                'Share records',
+                style: TextStyle(
+                    color: AppColors.anchorGrey
                 ),
-              )
-          ),
-           ),
-          ListTile(
-            leading: Icon(Icons.share_rounded, color: AppColors.anchorGrey),
-            title: Text(
-              'Share records',
-              style: TextStyle(
-                  color: AppColors.anchorGrey
               ),
+              onTap: () {
+                Navigator.pushNamed(context, '/sharedocuments');
+              },
             ),
-            onTap: () {
-              Navigator.pushNamed(context, '/sharedocuments');
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.lock, color: AppColors.anchorGrey),
-            title:  Text(
-              'Change password',
-              style: TextStyle(
-                  color: AppColors.anchorGrey
+            ListTile(
+              leading: Icon(Icons.lock, color: AppColors.anchorGrey),
+              title:  Text(
+                'Change password',
+                style: TextStyle(
+                    color: AppColors.anchorGrey
+                ),
               ),
+              onTap: () {
+                _openDialog();
+              },
             ),
-            onTap: () {
-              _openDialog();
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.delete, color: AppColors.anchorGrey),
-            title: Text(
-              'Delete profile',
-              style: TextStyle(
-                  color: AppColors.anchorGrey
+            ListTile(
+              leading: Icon(Icons.delete, color: AppColors.anchorGrey),
+              title: Text(
+                'Delete profile',
+                style: TextStyle(
+                    color: AppColors.anchorGrey
+                ),
               ),
-            ),
-            onTap: () {
+              onTap: () {
 
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.edit, color: AppColors.anchorGrey),
-            title: Text(
-              'Edit profile',
-              style: TextStyle(
-                  color: AppColors.anchorGrey
-              ),
+              },
             ),
-            onTap: () {
-              Navigator.pushNamed(context, '/editprofile');
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.logout,  color: AppColors.anchorGrey),
-            title: Text(
-              'Logout',
-              style: TextStyle(
-                  color: AppColors.anchorGrey
+            ListTile(
+              leading: Icon(Icons.edit, color: AppColors.anchorGrey),
+              title: Text(
+                'Edit profile',
+                style: TextStyle(
+                    color: AppColors.anchorGrey
+                ),
               ),
+              onTap: () {
+                Navigator.pushNamed(context, '/editprofile');
+              },
             ),
-            onTap: () {
-              Navigator.pushNamed(context, '/login');
-            },
-          ),
+            ListTile(
+              leading: Icon(Icons.logout,  color: AppColors.anchorGrey),
+              title: Text(
+                'Logout',
+                style: TextStyle(
+                    color: AppColors.anchorGrey
+                ),
+              ),
+              onTap: () {
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => Login()),
+                      (Route<dynamic> route) => false, // Removes all routes from the stack
+                );
+              },
+            ),
 
-        ],
-      )
+          ],
+        )
 
+      ),
     );
   }
   Future _openDialog() async { await showDialog(
@@ -140,33 +149,36 @@ class _NavBarState extends State<NavBar> {
           color: AppColors.anchorGrey
         ),
       ),
-      content: Column(
-        children: [
-          TextField(
-            autofocus: true,
-            controller: _oldPasswordController,
-            decoration: InputDecoration(
-              labelText: 'Old password',
-              labelStyle:  TextStyle(
-                color: AppColors.anchorGrey
-            ),
-
-
-            ),
-          ),
-          TextField(
-            controller: _newPasswordController,
-
-            decoration: InputDecoration(
-              labelText: 'New password',
-              labelStyle:  TextStyle(
+      content: Container(
+        constraints: BoxConstraints(maxHeight: 120),
+        child: Column(
+          children: [
+            TextField(
+              autofocus: true,
+              controller: _oldPasswordController,
+              decoration: InputDecoration(
+                labelText: 'Old password',
+                labelStyle:  TextStyle(
                   color: AppColors.anchorGrey
               ),
 
 
+              ),
             ),
-          ),
-        ],
+            TextField(
+              controller: _newPasswordController,
+
+              decoration: InputDecoration(
+                labelText: 'New password',
+                labelStyle:  TextStyle(
+                    color: AppColors.anchorGrey
+                ),
+
+
+              ),
+            ),
+          ],
+        ),
       ),
       actions: [
         TextButton(
