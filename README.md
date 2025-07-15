@@ -1,16 +1,50 @@
-# health_hive
+# HealthHive
 
-A personal health record system.
+HealthHive is a personal health record system that lets patients store their medical records digitally and share them with doctors when needed. It also includes features like medication reminders and health tracking to help users manage their daily health better.
 
-## Getting Started
+## Overview
 
-This project is a starting point for a Flutter application.
+Carrying physical copies of prescriptions and reports can be messy and inconvenient. HealthHive is a digital system that helps users keep all their medical documents and health data in one place. Doctors can access the information with the patient’s permission, using a one-time code.
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Current Features
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### For Patients
+
+- **Register and log in**
+- **Create and update profile** (name, DOB, gender, blood group, etc.)
+- **Upload documents** like prescriptions, lab reports, etc.
+- **Track vitals**: blood pressure, sugar, temperature, weight, height, hydration, menstruation
+- **Add medications** with reminders
+- **Report symptoms** with descriptions and timestamps
+
+
+### For Doctors
+
+- Log in using OTP or code provided by patient  
+
+
+## Interfaces
+
+- Patient  
+- Doctor  
+
+
+## Tech Stack
+
+| Area               | Tools/Tech                     |
+|--------------------|-------------------------------|
+| Mobile App         | Flutter            |
+| Backend            | Node.js                       |
+| Database           | MySQL              |
+| Languages Used     | JavaScript, Dart      |
+
+---
+
+
+## Preview
+
+![image](example.jpg)
+
+
+
