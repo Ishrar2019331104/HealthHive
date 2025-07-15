@@ -32,7 +32,7 @@ Carrying physical copies of prescriptions and reports can be messy and inconveni
 
 ## Tech Stack
 
-| Area               | Tools/Tech                     |
+| Area               | Language/Framework                     |
 |--------------------|-------------------------------|
 | Mobile App         | Flutter            |
 | Backend            | Node.js                       |
@@ -46,5 +46,8 @@ Carrying physical copies of prescriptions and reports can be messy and inconveni
 
 ![image](example.jpg)
 
+## Development
+
+The project was developed by me and Rabbani2019331039 for our Database Systems Lab during our undergrad 3rd year.
 
 
